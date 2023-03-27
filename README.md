@@ -1,1 +1,2 @@
-# MyMarket
+# StoneMarket
+My Business Market
