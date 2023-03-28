@@ -1,13 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using StoneMarket.AccessLayer.Entity;
+using StoneMarket.AccessLayer.Context;
 namespace StoneMarket.Controllers
 {
     public class AdminController : Controller
     {
+        private StoneMarketContext _db;
+        public AdminController(StoneMarketContext db)
+        {
+            _db = db;
+        }
         // GET: AdminController
         public IActionResult Dashboard()
         {
+
             return View();
         }
 

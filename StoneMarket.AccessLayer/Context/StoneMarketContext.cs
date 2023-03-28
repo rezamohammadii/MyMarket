@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using StoneMarket.AccessLayer.Entity;
 
-namespace StoneMarket.Context
+namespace StoneMarket.AccessLayer.Context
 {
     public class StoneMarketContext : DbContext
     {
@@ -22,5 +22,12 @@ namespace StoneMarket.Context
         public DbSet<RolePermission> RolePermissions { get; set; } = null!;
         public DbSet<Permission>  Permissions { get; set; } = null!;
         public DbSet<Store>  Stores { get; set; } = null!;
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<StoreCategory> StoreCategories { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
+
+
     }
 }
