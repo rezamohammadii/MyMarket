@@ -10,12 +10,12 @@ namespace StoneMarket.AccessLayer.Context
             : base(options)
         {
         }
-        //public StoneMarketContext()
-        //{}
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseMySQL("server=localhost;user=root;password=1qaz!QAZ;database=mymarket");
-        //}
+        public StoneMarketContext()
+        { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySQL("server=localhost; port=3310;user=admin;password=V7McNe8g!D7wQrcg;database=mymarket");
+        }
 
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;

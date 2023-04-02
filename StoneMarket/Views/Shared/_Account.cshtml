@@ -7,37 +7,28 @@
 
     <title>@ViewBag.Title</title>
 
-    <link href="~/css/style.css.css" rel="stylesheet" />
+   
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/favicon.ico" />
+
+    <!-- Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900">
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/font-awesome.min.css" />
+
 </head>
 <body>
 
     <div class="wrapper">
 
         <!--=================================
-         preloader -->
-
-        <div id="pre-loader">
-            <img src="~/images/pre-loader/loader-01.svg" alt="">
-        </div>
-
-        <!--=================================
-         preloader -->
-        <!--=================================
          register-->
 
         <section class="height-100vh d-flex align-items-center page-section-ptb login" style="background-image: url(images/register-bg.jpg);">
             <div class="container">
-                <div class="row no-gutters">
-                    <div class="col-lg-4 offset-lg-1 col-md-6 login-fancy-bg bg parallax" style="background-image: url(images/register-inner-bg.jpg);">
-                        <div class="login-fancy">
-                            <h2 class="text-white mb-20">سلام جهان!</h2>
-                            <p class="mb-20 text-white">ایجاد وب سایت های سفارشی با قالب منحصر به فرد چند منظوره پاسخگو همراه با ویژگی های قدرتمند.</p>
-                            <ul class="list-unstyled pos-bot pb-30">
-                                <li class="list-inline-item"><a class="text-white" href="#"> شرایط استفاده</a> </li>
-                                <li class="list-inline-item"><a class="text-white" href="#"> حریم خصوصی</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="row no-gutters">         
                     <div class="col-lg-4 col-md-6 bg-white">
                         <div class="login-fancy pb-40 clearfix">
                             @RenderBody()
@@ -54,5 +45,9 @@
 
     <script src="~/js/jquery-1.9.1.min.js"></script>
     <script src="~/js/bootstrap-rtl.min.js"></script>
+    
+    <!-- custom -->
+    <script src="~/js/custom.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

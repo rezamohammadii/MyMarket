@@ -15,7 +15,7 @@ namespace StoneMarket.Context
         public StoneMarketContext CreateDbContext(string[] args)
         {
             var configuration = new DbContextOptionsBuilder<StoneMarketContext>();
-            configuration.UseMySql(ServerVersion.Parse("10.10.3"));
+            configuration.UseMySQL("server=localhost;port=3310;user=admin;password=V7McNe8g!D7wQrcg;database=mymarket");
             return new StoneMarketContext(configuration.Options);
         }
     }

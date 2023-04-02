@@ -34,8 +34,22 @@ namespace StoneMarket.AccessLayer.Entity
         [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
         public string? Img { get; set; }
 
+        [Display(Name = "رنگ محصول")]
+        [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
+        public string? Color { get; set; }
+
+        [Display(Name = "ویژگی")]
+        [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
+        public string? Property { get; set; }
+
         [Display(Name = "قیمت")]
         public int Price { get; set; }
+
+        [Display(Name = "سایز")]
+        public int Size { get; set; }
+
+        [Display(Name = "وزن")]
+        public int Weight { get; set; }
 
         [Display(Name = "قیمت قبل")]
         public int DeletePrice { get; set; }
@@ -59,7 +73,7 @@ namespace StoneMarket.AccessLayer.Entity
         [ForeignKey("StoreId")]
         public virtual Store? Store { get; set; }
 
-        //public virtual ICollection<ProductGallery> ProductGalleries { get; set; }
+        public virtual ICollection<ProductGallery>? ProductGalleries { get; set; }
 
         //public virtual ICollection<ProductField> ProductFields { get; set; }
 

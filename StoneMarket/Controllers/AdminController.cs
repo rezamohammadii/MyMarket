@@ -2,14 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using StoneMarket.AccessLayer.Entity;
 using StoneMarket.AccessLayer.Context;
+using StoneMarket.Core.ViewModels;
+using StoneMarket.Core.Interfaces;
+
 namespace StoneMarket.Controllers
-{
+{ 
     public class AdminController : Controller
     {
         private StoneMarketContext _db;
-        public AdminController(StoneMarketContext db)
+        private IAccount _acc;
+        private IAdmin _admin;
+        public AdminController(StoneMarketContext db, IAccount acc, IAdmin  admin)
         {
             _db = db;
+            _acc = acc;
+            _admin = admin;
         }
         // GET: AdminController
         public IActionResult Dashboard()
@@ -17,12 +24,37 @@ namespace StoneMarket.Controllers
 
             return View();
         }
+        
+        public IActionResult Login()
+        {
 
-        // GET: AdminController/Details/5
-        public ActionResult Details(int id)
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user =  _acc.LoginUser(model.Mobile, model.Password);
+                if (user != null) return RedirectToAction(nameof(Dashboard));
+            }
+            return View();
+        }
+        public IActionResult Category()
+        {
+            List<Category> categories = _admin.GetCategories();
+            return View(categories);
+        }
+        public IActionResult AddCategory()
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult AddCategory(CategoryViewModel model)
+        {
+            return View();
+        }
+
 
         // GET: AdminController/Create
         public ActionResult Create()

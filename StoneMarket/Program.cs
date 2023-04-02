@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using StoneMarket.AccessLayer.Context;
 using StoneMarket.Context;
 using StoneMarket.Core.Classes;
@@ -9,6 +11,8 @@ using StoneMarket.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+//builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -24,7 +28,7 @@ builder.Services.AddAuthentication(options =>
 var conn = builder.Configuration.GetSection("mysqlDbString").Value;
 
 builder.Services.AddDbContext<StoneMarketContext>(options => options
-       .UseMySql(conn, ServerVersion.AutoDetect(conn)));
+       .UseMySQL(conn));
 
 builder.Services.AddTransient<IUser, UserService>();
 builder.Services.AddTransient<IAccount, AccountService>();
@@ -41,11 +45,17 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-app.UseStaticFiles();
+using var db = new StoneMarketContext();
+db.Database.MigrateAsync();
+
+app.UseAuthentication();
+//app.UseAuthorization();
+app.UseMvcWithDefaultRoute();
 
 app.UseRouting();
+app.UseStaticFiles();
 
-app.UseAuthorization();
+
 
 app.UseEndpoints(endpoints =>
 {

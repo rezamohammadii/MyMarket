@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoneMarket.AccessLayer.Context;
-using StoneMarket.Context;
 
 #nullable disable
 
@@ -100,6 +99,10 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Color")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("Date")
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
@@ -127,12 +130,22 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<string>("Property")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
 
                     b.Property<string>("Time")
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -143,6 +156,25 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.HasIndex("StoreId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("StoneMarket.AccessLayer.Entity.ProductGallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Img")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductGallery");
                 });
 
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Role", b =>
@@ -180,6 +212,42 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("MailAddress")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("MailPassword")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SiteDesc")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SiteKeys")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SiteName")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SmsApi")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SmsSender")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Store", b =>
@@ -364,6 +432,17 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.Navigation("Store");
                 });
 
+            modelBuilder.Entity("StoneMarket.AccessLayer.Entity.ProductGallery", b =>
+                {
+                    b.HasOne("StoneMarket.AccessLayer.Entity.Product", "Product")
+                        .WithMany("ProductGalleries")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.RolePermission", b =>
                 {
                     b.HasOne("StoneMarket.AccessLayer.Entity.Permission", "Permission")
@@ -439,6 +518,11 @@ namespace StoneMarket.AccessLayer.Migrations
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Product", b =>
+                {
+                    b.Navigation("ProductGalleries");
                 });
 
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Role", b =>
