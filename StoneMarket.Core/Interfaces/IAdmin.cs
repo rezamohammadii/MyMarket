@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using StoneMarket.AccessLayer.Entity;
+using StoneMarket.Core.ViewModels;
 
 namespace StoneMarket.Core.Interfaces
 {
@@ -36,7 +37,7 @@ namespace StoneMarket.Core.Interfaces
 
         #region Category
 
-        void InsertCategory(Category category);
+        void InsertCategory(CategoryViewModel category);
 
         void UpdateCategory(int id, string name, string icon);
 

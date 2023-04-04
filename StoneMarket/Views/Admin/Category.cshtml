@@ -29,8 +29,8 @@
                     <div class="d-block d-md-flex clearfix sm-mt-20">
                         <div class="clearfix">
                             <div class="box">
-                               <a class="button gray icon small" onclick="MyCreate()" href="#"> دسته بندی جدید <i class="fa fa-plus"></i> </a>
-                                
+                                <a class="button gray icon small"  href="/Admin/AddCategory"> دسته بندی جدید <i class="fa fa-plus"></i> </a>
+
                             </div>
                         </div>
                         <div class="widget-search ml-0 clearfix">
@@ -43,7 +43,7 @@
                     <table class="table center-aligned-table mb-0">
                         <thead>
                             <tr class="text-dark">
-                                <th>نام دسته بندی</th>
+                                <th>نام دسته بندی</th>                                
                                 <th>عملیات</th>
 
                             </tr>
@@ -53,11 +53,12 @@
                             {
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
+   
                                     @*                                <td><label class="badge badge-success">تایید شده</label></td>
                                     *@
                                     <td>
                                         <a href="#" class="btn btn-outline-danger btn-sm">حذف</a> |
-                                        <a href="#" class="btn btn-outline-warning btn-sm">ویرایش</a> 
+                                        <a href="#" class="btn btn-outline-warning btn-sm">ویرایش</a>
                                     </td>
                                 </tr>
                             }
@@ -85,9 +86,6 @@
             </div>
 
             <div id="bodyModal" class="modal-body">
-
-
-
             </div>
 
         </div>
@@ -98,16 +96,16 @@
 
 @section Scripts {
 
-    <script>
-        function MyCreate(){
-            $.ajax({
-                url: "/Admin/AddCategory",
-                type: "GET",
-                data:{}
-            }).done(function(res){
-                $('#myModal').modal('show')
-                $('#bodyModal').html(res)
-            })
-        }
-    </script>
+<script>
+    function MyCreate(){
+        $.ajax({
+            url: "/Admin/AddCategory",
+            type: "GET",
+            data:{}
+        }).done(function(res){
+            $('#myModal').modal('show')
+            $('#bodyModal').html(res)
+        })
+    }
+</script>
 }

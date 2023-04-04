@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using StoneMarket.Core.Interfaces;
+using StoneMarket.Core.ViewModels;
 
 namespace StoneMarket.Core.Services
 {
@@ -66,7 +67,7 @@ namespace StoneMarket.Core.Services
        
         public void DeletePermission(int id)
         {
-            Permission permission = _context.Permissions.Find(id);
+            Permission permission = _context.Permissions.Find(id)!;
 
             _context.Permissions.Remove(permission);
             _context.SaveChanges();
@@ -81,7 +82,16 @@ namespace StoneMarket.Core.Services
 
         public List<Category> GetCategories()
         {
-            return _context.Categories.Where(c => c.ParentId == null).ToList();
+            try
+            {
+                return _context.Categories.Where(c => c.ParentId == null).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                throw;
+            }
+            
         }
 
         public List<Category> GetCategoriesByParentId(int id)
@@ -96,7 +106,11 @@ namespace StoneMarket.Core.Services
 
         public int? GetCategoryParentId(int id)
         {
-            return _context.Categories.FirstOrDefault(c => c.Id == id).ParentId;
+            return _context.Categories.FirstOrDefault(c => c.Id == id)!.ParentId;
+        }
+        public int? GetCategoryParentId(string Name)
+        {
+            return _context.Categories.FirstOrDefault(c => c.Name == Name)!.ParentId;
         }
 
         public Permission GetPermission(int id)
@@ -115,9 +129,16 @@ namespace StoneMarket.Core.Services
             return _context.Categories.ToList();
         }
 
-        public void InsertCategory(Category category)
+        public void InsertCategory(CategoryViewModel category)
         {
-            _context.Categories.Add(category);
+            int? parentId = GetCategoryParentId(category.ParentCategory!);
+            Category cat = new Category()
+            {
+                Picture = category.Picture,
+                Name = category.Name,
+                ParentId = parentId
+            };
+            _context.Categories.Add(cat);
             _context.SaveChanges();
         }
 
@@ -131,7 +152,7 @@ namespace StoneMarket.Core.Services
 
         public void RemoveProduct(int id)
         {
-            Product product = _context.Products.Find(id);
+            Product product = _context.Products.Find(id)!;
 
             _context.Products.Remove(product);
             _context.SaveChanges();
@@ -141,10 +162,10 @@ namespace StoneMarket.Core.Services
 
         public void UpdateCategory(int id, string name, string icon)
         {
-            Category category = _context.Categories.Find(id);
+            Category category = _context.Categories.Find(id)!;
 
             category.Name = name;
-            category.Icon = icon;
+            category.Picture = icon;
 
             _context.SaveChanges();
         }
@@ -152,7 +173,7 @@ namespace StoneMarket.Core.Services
        
         public void UpdatePermission(int id, string name)
         {
-            Permission permission = _context.Permissions.Find(id);
+            Permission permission = _context.Permissions.Find(id)!;
 
             permission.Name = name;
 
@@ -162,7 +183,7 @@ namespace StoneMarket.Core.Services
  
         public void UpdateStoreCategory(int id, bool isactive, string desc)
         {
-            StoreCategory storeCategory = _context.StoreCategories.Find(id);
+            StoreCategory storeCategory = _context.StoreCategories.Find(id)!;
 
             storeCategory.IsActive = isactive;
             storeCategory.Desc = desc;
@@ -172,7 +193,7 @@ namespace StoneMarket.Core.Services
 
         public void UpdateSubCategory(int id, int parentid, string name)
         {
-            Category category = _context.Categories.Find(id);
+            Category category = _context.Categories.Find(id)!;
 
             category.Name = name;
             category.ParentId = parentid;

@@ -6,17 +6,27 @@ namespace StoneMarket.AccessLayer.Context
 {
     public class StoneMarketContext : DbContext
     {
-        public StoneMarketContext(DbContextOptions<StoneMarketContext> options)
-            : base(options)
-        {
-        }
-        public StoneMarketContext()
-        { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("server=localhost; port=3310;user=admin;password=V7McNe8g!D7wQrcg;database=mymarket");
-        }
 
+        //public StoneMarketContext()
+        //{ }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseMySql("server=localhost; port=3310;user id=root;password=1qaz!QAZ;database=stonemarket", ServerVersion.Parse("10.10.3"));
+        //}
+
+      //  protected readonly IConfiguration configuration;
+        //public StoneMarketContext(IConfiguration configuration)
+        //{
+        //    this.configuration = configuration;
+        //}
+        public StoneMarketContext(DbContextOptions<StoneMarketContext> options)
+         : base(options)
+        {
+        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlite(configuration.GetConnectionString("sqlDbString"));
+        //}
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<RolePermission> RolePermissions { get; set; } = null!;

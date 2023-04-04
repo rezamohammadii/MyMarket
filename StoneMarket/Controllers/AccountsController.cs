@@ -60,7 +60,7 @@ namespace StoneMarket.Controllers
                         RoleId = _account.GetMaxRole()
                     };
 
-                    _account.AddUser(user);
+                     _account.AddUser(user);
 
                     try
                     {

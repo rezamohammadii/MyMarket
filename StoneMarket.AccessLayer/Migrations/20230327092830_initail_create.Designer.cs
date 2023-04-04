@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoneMarket.AccessLayer.Context;
-using StoneMarket.Context;
 
 #nullable disable
 

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using StoneMarket.AccessLayer.Context;
-using StoneMarket.Context;
 using StoneMarket.Core.Classes;
 using StoneMarket.Core.Interfaces;
 using StoneMarket.Core.Services;
@@ -28,7 +27,7 @@ builder.Services.AddAuthentication(options =>
 var conn = builder.Configuration.GetSection("mysqlDbString").Value;
 
 builder.Services.AddDbContext<StoneMarketContext>(options => options
-       .UseMySQL(conn));
+       .UseSqlite(builder.Configuration.GetConnectionString("sqlDbString")));
 
 builder.Services.AddTransient<IUser, UserService>();
 builder.Services.AddTransient<IAccount, AccountService>();
@@ -45,9 +44,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-using var db = new StoneMarketContext();
-db.Database.MigrateAsync();
-
 app.UseAuthentication();
 //app.UseAuthorization();
 app.UseMvcWithDefaultRoute();
@@ -68,9 +64,10 @@ app.UseEndpoints(endpoints =>
 bool recreateDatabase = builder.Configuration.GetValue("recreateDatabase", false);
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<StoneMarketContext>();
+//using var dbContext = new StoneMarketContext();
 if (recreateDatabase)
 {
-    await dbContext.Database.EnsureCreatedAsync();
+    await dbContext.Database.MigrateAsync();
 }
 else
 {

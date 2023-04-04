@@ -300,3 +300,4 @@ __pycache__/
 /todo
 .vs/
 .vscode/
+/StoneMarket.AccessLayer/StoneMarket.db

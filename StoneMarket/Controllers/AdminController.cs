@@ -42,7 +42,8 @@ namespace StoneMarket.Controllers
         }
         public IActionResult Category()
         {
-            List<Category> categories = _admin.GetCategories();
+            List<Category> categories = _admin.GetSubCategories();
+            if (categories.Count == 0) return View();
             return View(categories);
         }
         public IActionResult AddCategory()
@@ -52,6 +53,10 @@ namespace StoneMarket.Controllers
         [HttpPost]
         public IActionResult AddCategory(CategoryViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                _admin.InsertCategory(model);
+            }
             return View();
         }
 
