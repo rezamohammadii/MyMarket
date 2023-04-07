@@ -25,13 +25,13 @@ namespace StoneMarket.Core.Classes
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (context.HttpContext.User.Identity.IsAuthenticated)
+            if (context.HttpContext.User.Identity!.IsAuthenticated)
             {
-                string username = context.HttpContext.User.Identity.Name;
+                string username = context.HttpContext.User.Identity.Name!;
 
                 _iuser = (IUser)context.HttpContext.RequestServices.GetService(typeof(IUser));
 
-                int roleID = _iuser.GetUserRole(username);
+                int roleID = _iuser!.GetUserRole(username);
 
                 if (!_iuser.ExistsPermission(_permissionID, roleID))
                 {

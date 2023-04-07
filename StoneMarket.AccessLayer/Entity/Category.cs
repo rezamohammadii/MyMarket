@@ -30,6 +30,11 @@ namespace StoneMarket.AccessLayer.Entity
         [Display(Name = "توضیحات بیشتر")]
         public string? MoreDescription { get; set; }
 
+
+        public string? SeoTitle { get; set; }
+        public string? SeoDescrption { get; set; }
+        public string? Title { get; set; }
+
         public virtual Category? Parent { get; set; } 
 
         public virtual ICollection<StoreCategory>? StoreCategories { get; set; }

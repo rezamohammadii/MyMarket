@@ -129,16 +129,37 @@ namespace StoneMarket.Core.Services
             return _context.Categories.ToList();
         }
 
-        public void InsertCategory(CategoryViewModel category)
+        public void InsertCategory(CategoryViewModel category, string uniqueFileName)
         {
-            int? parentId = GetCategoryParentId(category.ParentCategory!);
-            Category cat = new Category()
+
+            Category getCategory = GetCategory(category.Id);
+
+            if (getCategory != null)
             {
-                Picture = category.Picture,
-                Name = category.Name,
-                ParentId = parentId
-            };
-            _context.Categories.Add(cat);
+                getCategory.Picture = uniqueFileName;
+                getCategory.Name = category.Name;
+                getCategory.ParentId = int.Parse(category.ParentId!);
+                getCategory.Description = category.Description;
+                getCategory.MoreDescription = category.MoreDescription;
+                getCategory.SeoDescrption = category.SeoDescrption;
+                getCategory.SeoTitle = category.SeoTitle;
+                getCategory.Title = category.Title;
+            }
+            else
+            {
+                Category cat = new Category()
+                {
+                    Picture = uniqueFileName,
+                    Name = category.Name,
+                    ParentId = int.Parse(category.ParentId!),
+                    Description = category.Description,
+                    MoreDescription = category.MoreDescription,
+                    SeoDescrption = category.SeoDescrption,
+                    SeoTitle = category.SeoTitle,
+                    Title = category.Title,
+                };
+                _context.Categories.Add(cat);
+            }
             _context.SaveChanges();
         }
 
@@ -147,8 +168,6 @@ namespace StoneMarket.Core.Services
             _context.Permissions.Add(permission);
             _context.SaveChanges();
         }
-
-       
 
         public void RemoveProduct(int id)
         {
@@ -160,14 +179,13 @@ namespace StoneMarket.Core.Services
 
       
 
-        public void UpdateCategory(int id, string name, string icon)
+        public void UpdateCategory(CategoryViewModel model)
         {
-            Category category = _context.Categories.Find(id)!;
 
-            category.Name = name;
-            category.Picture = icon;
+            //category.Name = model.Name;
+            //category.Picture = uniqueFileName;
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
         }
 
        

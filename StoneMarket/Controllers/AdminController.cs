@@ -4,19 +4,22 @@ using StoneMarket.AccessLayer.Entity;
 using StoneMarket.AccessLayer.Context;
 using StoneMarket.Core.ViewModels;
 using StoneMarket.Core.Interfaces;
+using StoneMarket.Core.Classes;
 
 namespace StoneMarket.Controllers
 { 
     public class AdminController : Controller
     {
         private StoneMarketContext _db;
+        private readonly IWebHostEnvironment webHostEnvironment;
         private IAccount _acc;
         private IAdmin _admin;
-        public AdminController(StoneMarketContext db, IAccount acc, IAdmin  admin)
+        public AdminController(StoneMarketContext db, IAccount acc, IAdmin admin, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
             _acc = acc;
             _admin = admin;
+            this.webHostEnvironment = webHostEnvironment;
         }
         // GET: AdminController
         public IActionResult Dashboard()
@@ -48,18 +51,52 @@ namespace StoneMarket.Controllers
         }
         public IActionResult AddCategory()
         {
+            ViewBag.Ok = false;
+
             return View();
         }
         [HttpPost]
-        public IActionResult AddCategory(CategoryViewModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCategory([FromForm] CategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _admin.InsertCategory(model);
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
+
+                _admin.InsertCategory(model, uniqueFileName);
+
+                //  ViewBag.SeoTitle = model.Title;
+                ViewBag.Ok = true;
             }
             return View();
         }
 
+        public IActionResult EditCategory(int id)
+        {
+            Category categorie = _admin.GetCategory(id);
+            ViewBag.Ok = false;
+            if (categorie == null) return View();
+            return View(categorie);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCategory(CategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
+
+                _admin.InsertCategory(model, uniqueFileName);
+
+                //  ViewBag.SeoTitle = model.Title;
+                ViewBag.Ok = true;
+                return RedirectToAction(nameof(Category));
+            }
+           return View(model);
+        }
 
         // GET: AdminController/Create
         public ActionResult Create()

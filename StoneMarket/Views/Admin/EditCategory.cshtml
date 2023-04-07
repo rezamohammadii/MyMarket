@@ -1,4 +1,4 @@
-﻿@model StoneMarket.Core.ViewModels.CategoryViewModel
+﻿@model StoneMarket.AccessLayer.Entity.Category
 @using StoneMarket.Core.Classes
 @inject PanelLayoutScope scope
 @*
@@ -6,6 +6,8 @@
 *@
 @{
     Layout = "~/Views/Shared/_Panel.cshtml";
+    ViewData["Title"] = "ویرایش دسته بندی";
+
 
     var data = scope.Categories();
 }
@@ -29,18 +31,18 @@
                     </div>
 
                 </div>
-                <form asp-action="AddCategory" enctype="multipart/form-data">
+                <form asp-action="EditCategory" enctype="multipart/form-data">
                     <div class="form-group" style="width:60%">
                         <label for="Name"> نام دسته بندی </label>
 
-                        <input asp-for="Name" class="form-control" />
+                        <input asp-for="Name" class="form-control" value="@Model.Name" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="form-group" style="width:60%">
                         <label for="Name"> عنوان صفحه </label>
 
-                        <input asp-for="SeoTitle" class="form-control" />
+                        <input asp-for="SeoTitle" class="form-control" value="@Model.SeoTitle" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
@@ -48,7 +50,7 @@
                     <div class="form-group">
                         <label for="SeoDescrption"> توضیحات صفحه (سئو دیسکریپشن)  </label>
 
-                        <textarea asp-for="SeoDescrption" id="descw" class="form-control" style="width:60%;min-height:150px"></textarea>
+                        <textarea asp-for="SeoDescrption" id="descw" class="form-control" style="width:60%;min-height:150px">@Model.SeoDescrption</textarea>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
@@ -58,7 +60,7 @@
                         <label for="Description">توضیحات کوتاه </label>
 
                         <script src="~/ckeditor/ckeditor.js"></script>
-                        <textarea asp-for="Description" id="desc" class="form-control"></textarea>
+                        <textarea asp-for="Description" id="desc" class="form-control">@Model.Description</textarea>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
@@ -85,7 +87,7 @@
                     <div class="form-group">
                         <label class="mb-10" for="MoreDescription">توضیحات بیشتر </label>
                         <script src="~/ckeditor/ckeditor.js"></script>
-                        <textarea asp-for="MoreDescription" id="desc2" class="form-control"></textarea>
+                        <textarea asp-for="MoreDescription" id="desc2" class="form-control">@Model.MoreDescription</textarea>
                         <span asp-validation-for="MoreDescription" class="text-danger"></span>
                     </div>
                     <script type="text/javascript">
@@ -96,6 +98,7 @@
                     <div class="form-group" style="width:60%">
                         <label for="Picture"> تصویر دسته بندی </label>
                         <input asp-for="Picture" class="form-control-file" type="file" />
+                        <img src="~/images/@Model.Picture" width:600px />
                         <span asp-validation-for="Picture" class="text-danger"></span>
                     </div>
 

@@ -37,9 +37,9 @@ namespace StoneMarket.Core.Interfaces
 
         #region Category
 
-        void InsertCategory(CategoryViewModel category);
+        void InsertCategory(CategoryViewModel category, string uniqueFileName);
 
-        void UpdateCategory(int id, string name, string icon);
+        void UpdateCategory(CategoryViewModel category);
 
         void UpdateSubCategory(int id, int parentid, string name);
 

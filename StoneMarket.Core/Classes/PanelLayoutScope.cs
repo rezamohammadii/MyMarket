@@ -29,7 +29,7 @@ namespace StoneMarket.Core.Classes
 
         public List<Category> Categories()
         {
-            return _admin.GetCategories();
+            return _admin.GetSubCategories();
         }
 
     }

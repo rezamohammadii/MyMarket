@@ -68,6 +68,15 @@ namespace StoneMarket.AccessLayer.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SeoDescrption")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SeoTitle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
