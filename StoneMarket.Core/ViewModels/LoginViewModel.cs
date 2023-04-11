@@ -13,13 +13,13 @@ namespace StoneMarket.Core.ViewModels
         [MaxLength(11, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
         [MinLength(11, ErrorMessage = "مقدار {0} نباید کم تر از {1} کاراکتر باشد")]
         [Phone(ErrorMessage = "فقط عدد می توانید وارد کنید")]
-        public string Mobile { get; set; }
+        public string Mobile { get; set; } = null!;
 
         [Display(Name = "کلمه عبور")]
         [Required(ErrorMessage = "نباید بدون مقدار باشد")]
         [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
         [MinLength(4, ErrorMessage = "مقدار {0} نباید کم تر از {1} کاراکتر باشد")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
     }
 }

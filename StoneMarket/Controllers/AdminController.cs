@@ -5,9 +5,14 @@ using StoneMarket.AccessLayer.Context;
 using StoneMarket.Core.ViewModels;
 using StoneMarket.Core.Interfaces;
 using StoneMarket.Core.Classes;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace StoneMarket.Controllers
 { 
+    [Authorize]
     public class AdminController : Controller
     {
         private StoneMarketContext _db;
@@ -23,26 +28,12 @@ namespace StoneMarket.Controllers
         }
         // GET: AdminController
         public IActionResult Dashboard()
-        {
-
-            return View();
-        }
         
-        public IActionResult Login()
         {
 
             return View();
         }
-        [HttpPost]
-        public IActionResult Login([FromBody] LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user =  _acc.LoginUser(model.Mobile, model.Password);
-                if (user != null) return RedirectToAction(nameof(Dashboard));
-            }
-            return View();
-        }
+       
         public IActionResult Category()
         {
             List<Category> categories = _admin.GetSubCategories();
