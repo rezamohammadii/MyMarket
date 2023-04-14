@@ -55,11 +55,14 @@
                             {
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                    @if (item.Parent?.Name == "")
+                                    @if (item.Parent?.Name == "" || item.Parent?.Name == null)
                                     {
-                                        <td>ندارد</td>
+                                        <td style="color:red">ندارد</td>
                                     }
-                                    <td>@Html.DisplayFor(modelItem => item.Parent!.Name)</td>
+                                    else
+                                    {
+                                       <td>@Html.DisplayFor(modelItem => item.Parent!.Name)</td>
+                                    }
    
                                     @*        <td><label class="badge badge-success">تایید شده</label></td>
                                     *@

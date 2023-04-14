@@ -1,4 +1,8 @@
-﻿
+﻿@using StoneMarket.Core.Classes
+@inject PanelLayoutScope scope
+@{
+    string fullname = scope.GetAdminName(User.Identity!.Name);
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -103,30 +107,48 @@
                 <!-- Left Sidebar start-->
                 <div class="side-menu-fixed">
                     <div class="scrollbar side-menu-bg">
+                        <p style="text-align:center; margin-top:10px"> سلام مدیر عزیز<p style="text-align:center;color:green;">@fullname</p>  </p>
+
                         <ul class="nav navbar-nav side-menu" id="sidebarnav">
 
                             <!-- menu item todo-->
-
                             <li>
-                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard">
+                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#category">
                                     <div class="pull-left"><i class="ti-home"></i><span class="right-nav-text">دسته بندی ها</span></div>
                                     <div class="pull-right"><i class="ti-plus"></i></div><div class="clearfix"></div>
                                 </a>
-                                <ul id="dashboard" class="collapse" data-parent="#sidebarnav">
+                                <ul id="category" class="collapse" data-parent="#sidebarnav">
                                     <li> <a href="/Admin/AddCategory">افزودن دسته بندی جدید </a> </li>
                                     <li> <a href="/Admin/Category">لیست دسته بندی ها </a> </li>
-                                   
+
                                 </ul>
                             </li>
-                            
-                            <!-- menu item chat-->
+
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#product">
+                                    <div class="pull-left"><i class="ti-home"></i><span class="right-nav-text">محصولات</span></div>
+                                    <div class="pull-right"><i class="ti-plus"></i></div><div class="clearfix"></div>
+                                </a>
+                                <ul id="product" class="collapse" data-parent="#sidebarnav">
+                                    <li> <a href="/Admin/Products">لیست دسته محصولات </a> </li>
+                                    <li> <a href="/Admin/AddProduct">افزودن محصول جدید </a> </li>
+
+                                </ul>
+                            </li>
+
+                          @*  <!-- menu item chat-->
                             <li>
                                 <a href="chat-page.html"><i class="ti-comments"></i><span class="right-nav-text">محصولات </span></a>
-                            </li>
+                            </li>*@
                             <!-- menu item mailbox-->
                             <li>
                                 <a href="mail-box.html">
                                     <i class="ti-email"></i><span class="right-nav-text">صندوق پستی</span> <span class="badge badge-pill badge-warning float-right mt-1">تنظیمات</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Accounts/Logout">
+                                    <i class="fa fa-toggle-off"></i><span class="right-nav-text"> خروج</span> <span class="badge badge-pill badge-warning float-right mt-1">تنظیمات</span>
                                 </a>
                             </li>
                         </ul>

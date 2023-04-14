@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoneMarket.Core.Classes;
 using StoneMarket.Models;
 using System.Diagnostics;
 
@@ -15,6 +16,7 @@ namespace StoneMarket.Controllers
 
         public IActionResult Index()
         {
+            string ns = CodeFactory.RandomString();
             return View();
         }
 

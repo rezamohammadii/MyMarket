@@ -80,40 +80,17 @@ namespace StoneMarket.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Activate()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Activate(ActivateViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                if (_account.ActivateUser(viewModel.ActiveCode))
-                {
-                    return RedirectToAction(nameof(Login));
-                }
-                else
-                {
-                    ModelState.AddModelError("ActiveCode", "کد فعالسازی شما معتبر نیست");
-                }
-            }
-
-            return View(viewModel);
-        }
-
         public IActionResult Login()
         {
+
             return View();
         }
-
         [HttpPost]
-        public IActionResult Login(LoginViewModel viewModel)
+        public IActionResult Login( LoginViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                string hashPassword = HashGenerators.MD5Encoding(viewModel.Password);
+                string hashPassword =  HashGenerators.MD5Encoding(viewModel.Password);
 
                 User user = _account.LoginUser(viewModel.Mobile, hashPassword);
 
@@ -157,7 +134,7 @@ namespace StoneMarket.Controllers
                                 IsPersistent = true
                             };
 
-                            HttpContext.SignInAsync(principal, properties);
+                             HttpContext.SignInAsync(principal, properties);
 
                             if (user.Role.Name == "کاربر")
                             {
@@ -165,12 +142,13 @@ namespace StoneMarket.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Dashboard", "Panel");
+                                
+                                return RedirectToAction("Dashboard", "Admin");
                             }
                         }
                         else
                         {
-                            return RedirectToAction(nameof(Activate));
+                            //return RedirectToAction(nameof(Activation));
                         }
                     }
 
@@ -179,6 +157,28 @@ namespace StoneMarket.Controllers
                 else
                 {
                     ModelState.AddModelError("Password", "مشخصات کاربری اشتباه است");
+                }
+            }
+
+            return View(viewModel);
+        }
+        public IActionResult Activate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Activate(ActivateViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_account.ActivateUser(viewModel.ActiveCode))
+                {
+                    return RedirectToAction(nameof(Login));
+                }
+                else
+                {
+                    ModelState.AddModelError("ActiveCode", "کد فعالسازی شما معتبر نیست");
                 }
             }
 

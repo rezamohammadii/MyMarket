@@ -59,12 +59,17 @@ namespace StoneMarket.Core.Services
 
         public string GetUserRoleName(string username)
         {
-            return _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Mobile == username).Role.Name;
+            return _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Mobile == username)?.Role.Name;
         }
 
         public Store GetUserStore(string username)
         {
             return _context.Stores.Include(s => s.User).FirstOrDefault(s => s.User.Mobile == username);
+        }
+
+        public string GetAdminName(string username)
+        {
+            return _context.Users.Where(r=>r.Mobile == username).FirstOrDefault()?.FullName;
         }
     }
 }

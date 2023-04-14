@@ -4,9 +4,11 @@ using System.Text;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Globalization;
 namespace StoneMarket.AccessLayer.Entity
 {
+
+    
     public class Product
     {
         [Key]
@@ -16,40 +18,19 @@ namespace StoneMarket.AccessLayer.Entity
 
         public int CategoryId { get; set; }
 
-        public int StoreId { get; set; }
-
         [Display(Name = "تاریخ ثبت")]
         [MaxLength(10, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
-        public string? Date { get; set; }
-
-        [Display(Name = "ساعت ثبت")]
-        [MaxLength(10, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
-        public string? Time { get; set; }
+        public string? Date { get; set; } = HandleDate.GetPersianTime();
 
         [Display(Name = "نام محصول")]
         [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
         public string? Name { get; set; }
 
-        [Display(Name = "تصویر شاخص")]
-        [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
-        public string? Img { get; set; }
-
-        [Display(Name = "رنگ محصول")]
-        [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
-        public string? Color { get; set; }
-
-        [Display(Name = "ویژگی")]
-        [MaxLength(100, ErrorMessage = "مقدار {0} نباید بیش تر از {1} کاراکتر باشد")]
-        public string? Property { get; set; }
+        public string? SeoDescrption { get; set; }
+        public string? SeoTitle { get; set; }
 
         [Display(Name = "قیمت")]
         public int Price { get; set; }
-
-        [Display(Name = "سایز")]
-        public int Size { get; set; }
-
-        [Display(Name = "وزن")]
-        public int Weight { get; set; }
 
         [Display(Name = "قیمت قبل")]
         public int DeletePrice { get; set; }
@@ -70,13 +51,24 @@ namespace StoneMarket.AccessLayer.Entity
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
 
-        [ForeignKey("StoreId")]
-        public virtual Store? Store { get; set; }
 
         public virtual ICollection<ProductGallery>? ProductGalleries { get; set; }
+        public virtual ICollection<Atterbuit>? Atterbuits { get; set; }
 
         //public virtual ICollection<ProductField> ProductFields { get; set; }
 
         //public virtual ICollection<ProductSeen> ProductSeens { get; set; }
     }
+
+    public class HandleDate 
+    { 
+        public static string GetPersianTime()
+        {
+            PersianCalendar pc = new PersianCalendar();
+            string date = pc.GetYear(DateTime.Now).ToString("0000") + "/" + pc.GetMonth(DateTime.Now).ToString("00") +
+                             "/" + pc.GetDayOfMonth(DateTime.Now).ToString("00");
+            return date;
+        }
+    }
+
 }

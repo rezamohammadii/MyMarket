@@ -17,6 +17,28 @@ namespace StoneMarket.AccessLayer.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.12");
 
+            modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Atterbuit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Atterbuit");
+                });
+
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -112,10 +134,6 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Color")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Date")
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
@@ -129,10 +147,6 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.Property<int>("Exist")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Img")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
@@ -143,30 +157,11 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Property")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Size")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StoreId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Time")
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("StoreId");
 
                     b.ToTable("Products");
                 });
@@ -400,6 +395,17 @@ namespace StoneMarket.AccessLayer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Atterbuit", b =>
+                {
+                    b.HasOne("StoneMarket.AccessLayer.Entity.Product", "Product")
+                        .WithMany("Atterbuits")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Brand", b =>
                 {
                     b.HasOne("StoneMarket.AccessLayer.Entity.Store", "Store")
@@ -432,17 +438,9 @@ namespace StoneMarket.AccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StoneMarket.AccessLayer.Entity.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.ProductGallery", b =>
@@ -535,6 +533,8 @@ namespace StoneMarket.AccessLayer.Migrations
 
             modelBuilder.Entity("StoneMarket.AccessLayer.Entity.Product", b =>
                 {
+                    b.Navigation("Atterbuits");
+
                     b.Navigation("ProductGalleries");
                 });
 

@@ -25,13 +25,13 @@
             <div class="card-body">
                 <div class="d-block d-md-flex justify-content-between">
                     <div class="d-block">
-                        <h5 class="card-title pb-0 border-0">اضافه کردن دسته بندی جدید</h5>
+                        <h5 class="card-title pb-0 border-0">اضافه کردن محصول جدید</h5>
                     </div>
 
                 </div>
-                <form asp-action="AddCategory" enctype="multipart/form-data">
+                <form asp-action="AddProduct" enctype="multipart/form-data">
                     <div class="form-group" style="width:60%">
-                        <label for="Name"> نام دسته بندی </label>
+                        <label for="Name"> نام محصول </label>
 
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
@@ -72,7 +72,6 @@
                         <label class="mb-10" for="ParentCategory">انتخاب سر دسته </label>
 
                         <select asp-for="ParentId" class="fancyselect sm-mb-20 mr-20" style="width:100%">
-                            <option value="none">سر دسته ندارد</option>
                             @foreach (var item in data)
                             {
                                 <option value="@item.Id">@item.Name</option>

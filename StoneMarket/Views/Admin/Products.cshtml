@@ -1,0 +1,171 @@
+﻿@model IEnumerable<StoneMarket.AccessLayer.Entity.Product>
+@{
+    ViewData["Title"] = "دسته بندی ها";
+    Layout = "~/Views/Shared/_Panel.cshtml";
+}
+
+<div class="page-title">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="mb-0">داده محلی </h4>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                <li class="breadcrumb-item"><a href="#" class="default-color">خانه</a></li>
+                <li class="breadcrumb-item active">داده محلی </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- main body -->
+<div class="row">
+    <div class="col-xl-12 mb-30">
+        <div class="card card-statistics h-100">
+            <div class="card-body">
+                <div class="d-block d-md-flex justify-content-between">
+                    <div class="d-block">
+                        <h5 class="card-title pb-0 border-0">داده محلی</h5>
+                    </div>
+                    <div class="d-block d-md-flex clearfix sm-mt-20">
+                        <div class="clearfix">
+                            <div class="box">
+                                <a class="button gray icon small" href="/Admin/AddProduct"> محصول جدید <i class="fa fa-plus"></i> </a>
+
+                            </div>
+                        </div>
+                        <div class="widget-search ml-0 clearfix">
+                            <i class="fa fa-search"></i>
+                            <input type="search" class="form-control" id="search" onkeyup="myFunction()" placeholder="جستجو....">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mt-15">
+                    <table class="table center-aligned-table mb-0" id="myTable ">
+                        <thead>
+                            <tr class="text-dark">
+                                <th>نام محصول</th>
+                                <th>نام دسته بندی</th>
+                                <th>موجودی</th>
+                                <th>قابل نمایش در سایت</th>
+                                <th>قیمت</th>
+                                <th>عملیات</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model == null || Model.Count() == 0)
+                            {
+                                <tr>
+                                    <td>موردی برای نمایش وجود ندارد</td>
+                                </tr>
+
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+
+
+                                        <td>@Html.DisplayFor(modelItem => item.Category!.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Exist)</td>
+                                        @if (item.NotShow)
+                                        {
+                                            <td style="color:red">نیست</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="color:green">هست</td>
+                                        }
+                                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+
+
+                                        @*   <td><label class="badge badge-success">تایید شده</label></td>
+                                        *@
+                                        <td>
+                                            @Html.ActionLink("ویرایش", "EditProduct", new {id=item.Id}, new{@class= "btn btn-outline-warning btn-sm"} ) |
+                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.Id}, new{@class= "btn btn-outline-danger btn-sm"} )
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div id="bodyModal" class="modal-body">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+<script>
+    function MyCreate(){
+        $.ajax({
+            url: "/Admin/AddProduct",
+            type: "GET",
+            data:{}
+        }).done(function(res){
+            $('#myModal').modal('show')
+            $('#bodyModal').html(res)
+        })
+    }
+    function Edit(id){
+        event.preventDefault();
+        $.ajax({
+            url: "/Admin/EditProduct/" + id,
+            type: "GET",
+            data: {}
+        }).done(function(res){
+
+        })
+    }
+</script>
+<script>
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+</script>
+}

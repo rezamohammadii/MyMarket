@@ -5,9 +5,14 @@ using StoneMarket.AccessLayer.Context;
 using StoneMarket.Core.ViewModels;
 using StoneMarket.Core.Interfaces;
 using StoneMarket.Core.Classes;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace StoneMarket.Controllers
 { 
+    [Authorize]
     public class AdminController : Controller
     {
         private StoneMarketContext _db;
@@ -23,26 +28,12 @@ namespace StoneMarket.Controllers
         }
         // GET: AdminController
         public IActionResult Dashboard()
-        {
-
-            return View();
-        }
         
-        public IActionResult Login()
         {
 
             return View();
         }
-        [HttpPost]
-        public IActionResult Login([FromBody] LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user =  _acc.LoginUser(model.Mobile, model.Password);
-                if (user != null) return RedirectToAction(nameof(Dashboard));
-            }
-            return View();
-        }
+       
         public IActionResult Category()
         {
             List<Category> categories = _admin.GetSubCategories();
@@ -61,6 +52,7 @@ namespace StoneMarket.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
                 string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
 
@@ -98,67 +90,16 @@ namespace StoneMarket.Controllers
            return View(model);
         }
 
-        // GET: AdminController/Create
-        public ActionResult Create()
+
+        public IActionResult Products()
+        {
+            List<Product> products = _admin.GetProducts();
+            return View(products);
+        }
+
+        public IActionResult AddProduct()
         {
             return View();
-        }
-
-        // POST: AdminController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdminController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdminController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

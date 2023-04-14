@@ -218,5 +218,10 @@ namespace StoneMarket.Core.Services
 
             _context.SaveChanges();
         }
+
+        public List<Product> GetProducts()
+        {
+            return _context.Products.Include(c=>c.Category).ToList();
+        }
     }
 }

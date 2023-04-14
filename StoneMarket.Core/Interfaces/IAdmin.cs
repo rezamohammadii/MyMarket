@@ -57,6 +57,8 @@ namespace StoneMarket.Core.Interfaces
 
         #endregion
 
-        
+        #region Products
+        List<Product> GetProducts();
+        #endregion
     }
 }

@@ -26,7 +26,10 @@ namespace StoneMarket.Core.Classes
         {
             return _user.GetUserRoleName(username);
         }
-
+        public string GetAdminName(string username)
+        {
+            return _user.GetAdminName(username);
+        }
         public List<Category> Categories()
         {
             return _admin.GetSubCategories();

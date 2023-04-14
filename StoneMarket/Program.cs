@@ -7,6 +7,7 @@ using StoneMarket.AccessLayer.Context;
 using StoneMarket.Core.Classes;
 using StoneMarket.Core.Interfaces;
 using StoneMarket.Core.Services;
+using StoneMarket.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
@@ -45,6 +46,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseAuthentication();
+//app.UseMiddleware<AuthMiddleware>();
 //app.UseAuthorization();
 app.UseMvcWithDefaultRoute();
 
