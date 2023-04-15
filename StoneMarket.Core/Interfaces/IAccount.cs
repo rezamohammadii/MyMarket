@@ -10,8 +10,6 @@ namespace StoneMarket.Core.Interfaces
     {
         bool ExistsMobileNumber(string mobileNumber);
 
-        bool ExistsMailAddress(string mailAddress);
-
         void AddUser(User user);
 
         int GetMaxRole();
@@ -27,8 +25,6 @@ namespace StoneMarket.Core.Interfaces
         bool ResetPassword(string code, string password);
 
         string GetUserActiveCode(string mobileNumber);
-
-        void AddStore(Store store);
 
         void UpdateUserRole(string mobileNumber);
     }

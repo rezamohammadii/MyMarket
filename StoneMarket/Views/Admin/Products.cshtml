@@ -7,12 +7,12 @@
 <div class="page-title">
     <div class="row">
         <div class="col-sm-6">
-            <h4 class="mb-0">داده محلی </h4>
+            <h4 class="mb-0">لیست محصولات </h4>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
                 <li class="breadcrumb-item"><a href="#" class="default-color">خانه</a></li>
-                <li class="breadcrumb-item active">داده محلی </li>
+                <li class="breadcrumb-item active">لیست محصولات </li>
             </ol>
         </div>
     </div>
@@ -24,7 +24,7 @@
             <div class="card-body">
                 <div class="d-block d-md-flex justify-content-between">
                     <div class="d-block">
-                        <h5 class="card-title pb-0 border-0">داده محلی</h5>
+                        <h5 class="card-title pb-0 border-0">لیست محصولات</h5>
                     </div>
                     <div class="d-block d-md-flex clearfix sm-mt-20">
                         <div class="clearfix">
@@ -40,14 +40,16 @@
                     </div>
                 </div>
                 <div class="table-responsive mt-15">
-                    <table class="table center-aligned-table mb-0" id="myTable ">
+                    <table class="table center-aligned-table mb-0" id="myTable2">
                         <thead>
                             <tr class="text-dark">
                                 <th>نام محصول</th>
+                                <th>کد محصول</th>
                                 <th>نام دسته بندی</th>
                                 <th>موجودی</th>
                                 <th>قابل نمایش در سایت</th>
                                 <th>قیمت</th>
+                                <th>تاریخ ایجاد</th>
                                 <th>عملیات</th>
 
                             </tr>
@@ -66,19 +68,21 @@
                                 {
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ProductCode)</td>
 
 
                                         <td>@Html.DisplayFor(modelItem => item.Category!.Name)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Exist)</td>
                                         @if (item.NotShow)
                                         {
-                                            <td style="color:red">نیست</td>
+                                            <td style="color:green">هست</td>
                                         }
                                         else
                                         {
-                                            <td style="color:green">هست</td>
+                                            <td style="color:red">نیست</td>
                                         }
-                                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Price)  تومان</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
 
 
                                         @*   <td><label class="badge badge-success">تایید شده</label></td>
@@ -151,7 +155,7 @@
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("search");
       filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
+      table = document.getElementById("myTable2");
       tr = table.getElementsByTagName("tr");
 
       // Loop through all table rows, and hide those who don't match the search query

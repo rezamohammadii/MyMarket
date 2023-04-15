@@ -12,12 +12,8 @@ namespace StoneMarket.AccessLayer.Entity
     {
         [Key]
         public int Id { get; set; }
-        public int ProductId { get; set; }
+        public string ProductCode { get; set; } = null!;
         public string? Img { get; set; }
-
-        [ForeignKey("ProductId")]
-        public virtual Product? Product { get; set; } 
-
 
     }
 }

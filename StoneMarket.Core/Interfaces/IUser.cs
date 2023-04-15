@@ -12,11 +12,6 @@ namespace StoneMarket.Core.Interfaces
         int GetUserRole(string username);
         string GetUserRoleName(string username);
         string GetAdminName(string username);
-        Store GetUserStore(string username);
-        bool ExistsMailActivate(string username, string code);
-        bool ExistsMobileActivate(string username, string code);
-        void ActiveMailAddress(string mailAddress);
-        void ActiveMobileNumber(string mobileNumber);
       //  Setting GetSetting();
     }
 }

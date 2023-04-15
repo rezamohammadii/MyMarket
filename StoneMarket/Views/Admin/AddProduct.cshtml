@@ -1,4 +1,4 @@
-﻿@model StoneMarket.Core.ViewModels.CategoryViewModel
+﻿@model StoneMarket.Core.ViewModels.ProductViewModel
 @using StoneMarket.Core.Classes
 @inject PanelLayoutScope scope
 @*
@@ -30,25 +30,81 @@
 
                 </div>
                 <form asp-action="AddProduct" enctype="multipart/form-data">
-                    <div class="form-group" style="width:60%">
-                        <label for="Name"> نام محصول </label>
 
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="col-md-12" style="display:flex">
+                        <div class="form-group col-md-6">
+                            <label for="Name"> نام محصول </label>
+
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Color"> رنگ محصول </label>
+                            <input asp-for="Color" class="form-control" placeholder="آبی"/>
+                        </div>
+
                     </div>
 
-                    <div class="form-group" style="width:60%">
-                        <label for="Name"> عنوان صفحه </label>
+                    <div class="col-md-12" style="display:flex">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Size"> سایز محصول </label>
+                            <input asp-for="Size" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Price"> قیمت محصول </label>
+                            <input asp-for="Price" class="form-control" placeholder=" برای مثال 50000 هزار تومان"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="display:flex">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="DeletePrice"> قیمت قبل </label>
+                            <input asp-for="DeletePrice" class="form-control" />
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Material"> جنس </label>
+                            <input asp-for="Material" class="form-control" placeholder="فلزی" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12" style="display:flex">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Weight"> وزن </label>
+                            <input asp-for="Weight" class="form-control" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Exist"> موجودی در انبار </label>
+                            <input asp-for="Exist" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="SeoTitle"> عنوان صفحه </label>
 
                         <input asp-for="SeoTitle" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <span asp-validation-for="SeoTitle" class="text-danger"></span>
                     </div>
 
 
                     <div class="form-group">
                         <label for="SeoDescrption"> توضیحات صفحه (سئو دیسکریپشن)  </label>
 
-                        <textarea asp-for="SeoDescrption" id="descw" class="form-control" style="width:60%;min-height:150px"></textarea>
+                        <textarea asp-for="SeoDescrption" id="descw" class="form-control" style="min-height:150px"></textarea>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
@@ -68,17 +124,35 @@
                         CKEDITOR.replace('desc');
                     </script>
 
-                    <div class="form-group" style="width:60%">
-                        <label class="mb-10" for="ParentCategory">انتخاب سر دسته </label>
+                    <div class="col-md-12" style="display:flex">
 
-                        <select asp-for="ParentId" class="fancyselect sm-mb-20 mr-20" style="width:100%">
-                            @foreach (var item in data)
-                            {
-                                <option value="@item.Id">@item.Name</option>
 
-                            }
+                        <div class="form-group col-md-6">
+                            <label class="mb-10" for="ParentCategory">انتخاب سر دسته </label>
 
-                        </select>
+                            <select asp-for="CategoryId" class="fancyselect sm-mb-20 mr-20" style="width:100%">
+                                @foreach (var item in data)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+
+                                }
+
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-10" for="ParentCategory">انتخاب برند </label>
+
+                            <select asp-for="BrandId" class="fancyselect sm-mb-20 mr-20" style="width:100%">
+                                @foreach (var item in data)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+
+                                }
+
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -93,9 +167,18 @@
 
 
                     <div class="form-group" style="width:60%">
-                        <label for="Picture"> تصویر دسته بندی </label>
-                        <input asp-for="Picture" class="form-control-file" type="file" multiple />
-                        <span asp-validation-for="Picture" class="text-danger"></span>
+                        <label for="Picture"> تصویر محصول </label>
+                        <input asp-for="Pictures" class="form-control-file" type="file" multiple />
+                        <span asp-validation-for="Pictures" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input" asp-for="NotShow" required>
+                            <label class="custom-control-label" for="NotShow" style="color:green">محصول در سایت نمایش داده شود؟</label>
+                            <div class="invalid-feedback">محصول قابل نمایش در سایت نیست</div>
+                        </div>
                     </div>
 
                     <div class="form-group" style="width:100px">
@@ -111,6 +194,15 @@
 
 
 @section Scripts {
+
+
+<script>
+
+
+
+</script>
+
+
 
 <script>
      var list = [];

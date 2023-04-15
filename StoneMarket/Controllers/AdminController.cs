@@ -54,7 +54,7 @@ namespace StoneMarket.Controllers
             {
 
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
+                string uniqueFileName = CodeFactory.UploadedFile(model.Picture, uploadsFolder);
 
                 _admin.InsertCategory(model, uniqueFileName);
 
@@ -79,7 +79,12 @@ namespace StoneMarket.Controllers
             if (ModelState.IsValid)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
+                string uniqueFileName = "";
+                if (model.Picture != null)
+                {
+                     uniqueFileName = CodeFactory.UploadedFile(model.Picture, uploadsFolder);
+
+                }
 
                 _admin.InsertCategory(model, uniqueFileName);
 
@@ -99,6 +104,29 @@ namespace StoneMarket.Controllers
 
         public IActionResult AddProduct()
         {
+
+            ViewBag.Ok = false;
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult AddProduct(ProductViewModel model)
+        {
+
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+            string uniqueFileName = "";
+            List<string> paths = new List<string>();
+            if (model.Pictures.Count != 0)
+            {
+                foreach (var item in model.Pictures)
+                {
+                    uniqueFileName = CodeFactory.UploadedFile(item, uploadsFolder);
+                    paths.Add(uniqueFileName);
+                }
+            }
+            _admin.InsertProduct(model, paths);
+            ViewBag.Ok = true;
             return View();
         }
     }

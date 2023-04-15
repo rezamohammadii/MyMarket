@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using StoneMarket.Core.Interfaces;
 using StoneMarket.Core.ViewModels;
+using StoneMarket.Core.Classes;
 
 namespace StoneMarket.Core.Services
 {
@@ -73,12 +74,6 @@ namespace StoneMarket.Core.Services
             _context.SaveChanges();
         }
 
-
-
-        public List<Store> GetActiveStores()
-        {
-            return _context.Stores.Include(s => s.User).Where(s => s.MobileActivate == true && s.MailActivate == true).OrderByDescending(s => s.UserId).ToList();
-        }
 
         public List<Category> GetCategories()
         {
@@ -198,17 +193,6 @@ namespace StoneMarket.Core.Services
             _context.SaveChanges();
         }
 
- 
-        public void UpdateStoreCategory(int id, bool isactive, string desc)
-        {
-            StoreCategory storeCategory = _context.StoreCategories.Find(id)!;
-
-            storeCategory.IsActive = isactive;
-            storeCategory.Desc = desc;
-
-            _context.SaveChanges();
-        }
-
         public void UpdateSubCategory(int id, int parentid, string name)
         {
             Category category = _context.Categories.Find(id)!;
@@ -222,6 +206,46 @@ namespace StoneMarket.Core.Services
         public List<Product> GetProducts()
         {
             return _context.Products.Include(c=>c.Category).ToList();
+        }
+
+        public void InsertProduct(ProductViewModel model, List<string> paths)
+        {
+            Product product = new Product();
+            product.BrandId = model.BrandId;
+            product.SeoTitle = model.SeoTitle;
+            product.DeletePrice = model.DeletePrice;
+            product.Name = model.Name;
+            product.Color = model.Color;
+            product.CategoryId = model.CategoryId;
+            product.Date = CodeFactory.PersianDate();
+            product.Description = model.Description;
+            product.Weight = model.Weight;
+            product.Size = model.Size;
+            product.Price = model.Price;
+            product.NotShow = model.NotShow;
+            product.SeoDescrption = model.SeoDescrption;
+            product.Material = model.Material;
+            product.ProductCode = CodeFactory.RandomString();
+
+            foreach (var item in paths)
+            {
+                ProductGallery productGallery = new ProductGallery();
+                productGallery.ProductCode = product.ProductCode;
+                productGallery.Img = item;
+                _context.ProductGalleries.Add(productGallery);
+            }
+            _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
+        public bool EditProduct(ProductViewModel product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteProduct(ProductViewModel product)
+        {
+            throw new NotImplementedException();
         }
     }
 }

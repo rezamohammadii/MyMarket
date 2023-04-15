@@ -59,6 +59,10 @@ namespace StoneMarket.Core.Interfaces
 
         #region Products
         List<Product> GetProducts();
+
+        void InsertProduct(ProductViewModel product, List<string> path);
+        bool EditProduct(ProductViewModel product);
+        bool DeleteProduct(ProductViewModel product);
         #endregion
     }
 }
