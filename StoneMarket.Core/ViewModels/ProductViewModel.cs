@@ -12,6 +12,7 @@ namespace StoneMarket.Core.ViewModels
     {
 
         public string? Name { get; set; }
+        public string? ProductCode { get; set; }
 
         public string? SeoDescrption { get; set; }
         public string? SeoTitle { get; set; }

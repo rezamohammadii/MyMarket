@@ -129,5 +129,40 @@ namespace StoneMarket.Controllers
             ViewBag.Ok = true;
             return View();
         }
+
+        public IActionResult EditProduct(string pCode)
+        {
+            Product product = _admin.GetProduct(pCode);
+            ViewBag.Ok = false;
+            if (product == null) return View();
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCategory(ProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                string uniqueFileName = "";
+                List<string> paths = new List<string>();
+                if (model.Pictures.Count != 0)
+                {
+                    foreach (var item in model.Pictures)
+                    {
+                        uniqueFileName = CodeFactory.UploadedFile(item, uploadsFolder);
+                        paths.Add(uniqueFileName);
+                    }
+                }
+
+                _admin.EditProduct(model, paths);
+
+                //  ViewBag.SeoTitle = model.Title;
+                ViewBag.Ok = true;
+                return RedirectToAction(nameof(Category));
+            }
+            return View(model);
+        }
     }
 }

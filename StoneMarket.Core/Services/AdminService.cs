@@ -238,14 +238,44 @@ namespace StoneMarket.Core.Services
             _context.SaveChanges();
         }
 
-        public bool EditProduct(ProductViewModel product)
+        public bool EditProduct(ProductViewModel model, List<string> paths)
         {
-            throw new NotImplementedException();
+            var product = _context.Products.Where(p => p.ProductCode == model.ProductCode).SingleOrDefault();
+            product.BrandId = model.BrandId;
+            product.SeoTitle = model.SeoTitle;
+            product.DeletePrice = model.DeletePrice;
+            product.Name = model.Name;
+            product.Color = model.Color;
+            product.CategoryId = model.CategoryId;
+            product.Date = CodeFactory.PersianDate();
+            product.Description = model.Description;
+            product.Weight = model.Weight;
+            product.Size = model.Size;
+            product.Price = model.Price;
+            product.NotShow = model.NotShow;
+            product.SeoDescrption = model.SeoDescrption;
+            product.Material = model.Material;
+            product.ProductCode = CodeFactory.RandomString();
+
+            foreach (var item in paths)
+            {
+                ProductGallery productGallery = new ProductGallery();
+                productGallery.ProductCode = product.ProductCode;
+                productGallery.Img = item;
+                _context.ProductGalleries.Add(productGallery);
+            }
+            _context.Products.Add(product);
+            _context.SaveChanges();
         }
 
         public bool DeleteProduct(ProductViewModel product)
         {
             throw new NotImplementedException();
+        }
+
+        public Product GetProduct(string pCode)
+        {
+            return _context.Products.Include(x => x.ProductGalleries).Where(x => x.ProductCode == pCode).SingleOrDefault();
         }
     }
 }
