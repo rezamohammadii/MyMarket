@@ -88,8 +88,8 @@
                                         @*   <td><label class="badge badge-success">تایید شده</label></td>
                                         *@
                                         <td>
-                                            @Html.ActionLink("ویرایش", "EditProduct", new {id=item.Id}, new{@class= "btn btn-outline-warning btn-sm"} ) |
-                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.Id}, new{@class= "btn btn-outline-danger btn-sm"} )
+                                            @Html.ActionLink("ویرایش", "EditProduct", new {pCode=item.ProductCode}, new{@class= "btn btn-outline-warning btn-sm"} ) |
+                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.ProductCode}, new{@class= "btn btn-outline-danger btn-sm"} )
                                         </td>
                                     </tr>
                                 }
@@ -138,10 +138,11 @@
             $('#bodyModal').html(res)
         })
     }
-    function Edit(id){
+    function Edit(pCode){
         event.preventDefault();
+        alert(pCode)
         $.ajax({
-            url: "/Admin/EditProduct/" + id,
+            url: "/Admin/EditProduct/" + pCode,
             type: "GET",
             data: {}
         }).done(function(res){

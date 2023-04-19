@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
 namespace StoneMarket.AccessLayer.Entity
 {
 
@@ -19,7 +15,7 @@ namespace StoneMarket.AccessLayer.Entity
 
         public int CategoryId { get; set; }
 
-        public string? Date { get; set; } = HandleDate.GetPersianTime();
+        public string? Date { get; set; } = GetPersianDate.GetPersianTime();
 
         public string? Name { get; set; }
 
@@ -57,17 +53,6 @@ namespace StoneMarket.AccessLayer.Entity
         //public virtual ICollection<ProductField> ProductFields { get; set; }
 
         //public virtual ICollection<ProductSeen> ProductSeens { get; set; }
-    }
-
-    public class HandleDate 
-    { 
-        public static string GetPersianTime()
-        {
-            PersianCalendar pc = new PersianCalendar();
-            string date = pc.GetYear(DateTime.Now).ToString("0000") + "/" + pc.GetMonth(DateTime.Now).ToString("00") +
-                             "/" + pc.GetDayOfMonth(DateTime.Now).ToString("00");
-            return date;
-        }
     }
 
 }

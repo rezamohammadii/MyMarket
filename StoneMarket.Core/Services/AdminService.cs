@@ -164,16 +164,7 @@ namespace StoneMarket.Core.Services
             _context.SaveChanges();
         }
 
-        public void RemoveProduct(int id)
-        {
-            Product product = _context.Products.Find(id)!;
-
-            _context.Products.Remove(product);
-            _context.SaveChanges();
-        }
-
       
-
         public void UpdateCategory(CategoryViewModel model)
         {
 
@@ -240,42 +231,63 @@ namespace StoneMarket.Core.Services
 
         public bool EditProduct(ProductViewModel model, List<string> paths)
         {
-            var product = _context.Products.Where(p => p.ProductCode == model.ProductCode).SingleOrDefault();
-            product.BrandId = model.BrandId;
-            product.SeoTitle = model.SeoTitle;
-            product.DeletePrice = model.DeletePrice;
-            product.Name = model.Name;
-            product.Color = model.Color;
-            product.CategoryId = model.CategoryId;
-            product.Date = CodeFactory.PersianDate();
-            product.Description = model.Description;
-            product.Weight = model.Weight;
-            product.Size = model.Size;
-            product.Price = model.Price;
-            product.NotShow = model.NotShow;
-            product.SeoDescrption = model.SeoDescrption;
-            product.Material = model.Material;
-            product.ProductCode = CodeFactory.RandomString();
-
-            foreach (var item in paths)
+            try
             {
-                ProductGallery productGallery = new ProductGallery();
-                productGallery.ProductCode = product.ProductCode;
-                productGallery.Img = item;
-                _context.ProductGalleries.Add(productGallery);
+                var product = _context.Products.Include(p => p.ProductGalleries).Where(p => p.ProductCode == model.ProductCode).SingleOrDefault();
+                product.BrandId = model.BrandId;
+                product.SeoTitle = model.SeoTitle;
+                product.DeletePrice = model.DeletePrice;
+                product.Name = model.Name;
+                product.Color = model.Color;
+                product.CategoryId = model.CategoryId;
+                product.Date = CodeFactory.PersianDate();
+                product.Description = model.Description;
+                product.Weight = model.Weight;
+                product.Size = model.Size;
+                product.Price = model.Price;
+                product.NotShow = model.NotShow;
+                product.SeoDescrption = model.SeoDescrption;
+                product.Material = model.Material;
+                product.ProductCode = CodeFactory.RandomString();
+
+                foreach (var item in product.ProductGalleries!)
+                {
+                    foreach (var path in paths)
+                    {
+                        item.Img = path;
+                    }
+                }
+                _context.SaveChanges();
+                return true;
+
             }
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
 
-        public bool DeleteProduct(ProductViewModel product)
+        public void DeleteProduct(string pcdoe)
         {
-            throw new NotImplementedException();
+
+            Product product = _context.Products.Find(pcdoe)!;
+
+            _context.Products.Remove(product);
+            _context.SaveChanges();
         }
 
         public Product GetProduct(string pCode)
         {
-            return _context.Products.Include(x => x.ProductGalleries).Where(x => x.ProductCode == pCode).SingleOrDefault();
+            var product =  _context.Products.Where(x => x.ProductCode == pCode).Include(x => x.ProductGalleries).SingleOrDefault();
+            var productPic = _context.ProductGalleries.Where(x => x.ProductCode == pCode).ToList();
+            product!.ProductGalleries = productPic;
+            return product;
+        }
+
+        public List<Redirection> Redirections()
+        {
+            return _context.Redirections.ToList();
         }
     }
 }

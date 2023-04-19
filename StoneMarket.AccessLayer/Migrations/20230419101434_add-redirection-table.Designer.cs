@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoneMarket.AccessLayer.Context;
 
@@ -10,9 +11,10 @@ using StoneMarket.AccessLayer.Context;
 namespace StoneMarket.AccessLayer.Migrations
 {
     [DbContext(typeof(StoneMarketContext))]
-    partial class StoneMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20230419101434_add-redirection-table")]
+    partial class addredirectiontable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.12");

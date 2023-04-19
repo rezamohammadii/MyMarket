@@ -1,0 +1,232 @@
+﻿@model StoneMarket.AccessLayer.Entity.Product
+@using StoneMarket.Core.Classes
+@inject PanelLayoutScope scope
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Panel.cshtml";
+
+    var data = scope.Categories();
+}
+
+@{
+    if (ViewBag.Ok)
+    {
+        <div class="alert alert-success" role="alert">
+            اطلاعات با موفقیت ذخیره شد
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="col-xl-12 mb-30">
+        <div class="card card-statistics h-100">
+            <div class="card-body">
+                <div class="d-block d-md-flex justify-content-between">
+                    <div class="d-block">
+                        <h5 class="card-title pb-0 border-0">اضافه کردن محصول جدید</h5>
+                    </div>
+
+                </div>
+                <form asp-action="EditProduct" enctype="multipart/form-data">
+
+                    <div class="col-md-12" style="display:flex">
+                        <div class="form-group col-md-6">
+                            <label for="Name"> نام محصول </label>
+
+                            <input asp-for="Name" class="form-control" value="@Model.Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Color"> رنگ محصول </label>
+                            <input asp-for="Color" class="form-control" placeholder="آبی" value="@Model.Color" />
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12" style="display:flex">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Size"> سایز محصول </label>
+                            <input asp-for="Size" class="form-control" value="@Model.Size" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Price"> قیمت محصول </label>
+                            <input asp-for="Price" class="form-control" placeholder=" برای مثال 50000 هزار تومان" value="@Model.Price"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" style="display:flex">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="DeletePrice"> قیمت قبل </label>
+                            <input asp-for="DeletePrice" class="form-control" value="@Model.DeletePrice" />
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Material"> جنس </label>
+                            <input asp-for="Material" class="form-control" placeholder="فلزی"  value="@Model.Material" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12" style="display:flex">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Weight"> وزن </label>
+                            <input asp-for="Weight" class="form-control"  value="@Model.Weight" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="Exist"> موجودی در انبار </label>
+                            <input asp-for="Exist" class="form-control"  value="@Model.Exist" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="SeoTitle"> عنوان صفحه </label>
+
+                        <input asp-for="SeoTitle" class="form-control"  value="@Model.SeoTitle" />
+                        <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="SeoDescrption"> توضیحات صفحه (سئو دیسکریپشن)  </label>
+
+                        <textarea asp-for="SeoDescrption" id="descw" class="form-control" style="min-height:150px"  value="@Model.SeoDescrption"></textarea>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Description">توضیحات کوتاه </label>
+
+                        <script src="~/ckeditor/ckeditor.js"></script>
+                        <textarea asp-for="Description" id="desc" class="form-control"  value="@Model.Description"></textarea>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+
+
+                    <script type="text/javascript">
+                        CKEDITOR.replace('desc');
+                    </script>
+
+                    <div class="col-md-12" style="display:flex">
+
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-10" for="ParentCategory">انتخاب سر دسته </label>
+
+                            <select asp-for="CategoryId" class="fancyselect sm-mb-20 mr-20" style="width:100%">
+                                @foreach (var item in data)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+
+                                }
+
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-10" for="ParentCategory">انتخاب برند </label>
+
+                            <select asp-for="BrandId" class="fancyselect sm-mb-20 mr-20" style="width:100%">
+                                @foreach (var item in data)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="mb-10" for="MoreDescription">توضیحات بیشتر </label>
+                        <script src="~/ckeditor/ckeditor.js"></script>
+                        <textarea asp-for="MoreDescription" id="desc2" class="form-control"  value="@Model.MoreDescription"></textarea>
+                        <span asp-validation-for="MoreDescription" class="text-danger"></span>
+                    </div>
+                    <script type="text/javascript">
+                        CKEDITOR.replace('desc2');
+                    </script>
+
+
+                    <div class="form-group">
+                        <label for="Picture"> تصویر محصول </label>
+                        <div class="col-md-12">
+                             @foreach (var item in Model.ProductGalleries!)
+                        {
+                            <div class="col-md-4">
+                                 <img src="~/images/@item.Img" width="300" />
+                             <input id="img_@item.Id" class="form-control-file" type="checkbox"  />
+                            </div>
+                            
+                        }
+                        </div>                                          
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input" asp-for="NotShow" required>
+                            <label class="custom-control-label" for="NotShow" style="color:green">محصول در سایت نمایش داده شود؟</label>
+                            <div class="invalid-feedback">محصول قابل نمایش در سایت نیست</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="width:100px">
+                        <input type="submit" value="ثبت شود" class="btn btn-success btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+
+<script>
+
+
+
+</script>
+
+
+
+<script>
+     var list = [];
+    $.ajax({
+             url: "/Admin/Category",
+             type: "GET",
+             data:{}
+         }).done(function(res){
+             list.push(res)
+             console.log(list)
+             list.forEach(function(item){
+             })0
+             //$('#mySelect').append($('<option>', {
+             //    value: "none",
+             //    text: 'My option'
+             //}));
+         })
+</script>
+}

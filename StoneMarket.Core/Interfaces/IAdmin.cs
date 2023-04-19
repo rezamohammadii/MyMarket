@@ -20,6 +20,8 @@ namespace StoneMarket.Core.Interfaces
 
         Setting GetSetting();
 
+        List<Redirection> Redirections();
+
         #endregion
         #region For Permission
 
@@ -63,7 +65,7 @@ namespace StoneMarket.Core.Interfaces
 
         void InsertProduct(ProductViewModel product, List<string> path);
         bool EditProduct(ProductViewModel product, List<string> path);
-        bool DeleteProduct(ProductViewModel product);
+        void DeleteProduct(string pcode);
         #endregion
     }
 }

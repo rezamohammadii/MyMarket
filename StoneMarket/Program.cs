@@ -46,13 +46,12 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseAuthentication();
-//app.UseMiddleware<AuthMiddleware>();
+app.UseMiddleware<AuthMiddleware>();
 //app.UseAuthorization();
 app.UseMvcWithDefaultRoute();
 
 app.UseRouting();
 app.UseStaticFiles();
-
 
 
 app.UseEndpoints(endpoints =>
@@ -62,6 +61,7 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync("Hello World!");
     });
 });
+
 
 bool recreateDatabase = builder.Configuration.GetValue("recreateDatabase", false);
 using var scope = app.Services.CreateScope();

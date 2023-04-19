@@ -1,0 +1,160 @@
+﻿@model StoneMarket.AccessLayer.Entity.Redirection
+@using StoneMarket.Core.Classes
+@inject PanelLayoutScope scope
+@{
+    ViewData["Title"] = "ریدایرکت ها";
+    Layout = "~/Views/Shared/_Panel.cshtml";
+    var data = scope.Redirections();
+}
+
+<div class="page-title">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="mb-0">لیست آدرس ها </h4>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                <li class="breadcrumb-item"><a href="#" class="default-color">خانه</a></li>
+                <li class="breadcrumb-item active">لیست آدرس ها </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- main body -->
+<div class="row">
+    <div class="col-xl-12 mb-30">
+        <div class="card card-statistics h-100">
+            <div class="card-body">
+                <div class="d-block d-md-flex justify-content-between">
+                    <div class="d-block">
+                        <h5 class="card-title pb-0 border-0">لیست محصولات</h5>
+                    </div>
+                    <div class="d-block d-md-flex clearfix sm-mt-20">
+                        <div class="clearfix">
+                            <div class="box">
+                                <a class="button gray icon small" href="#" onclick="MyCreate()"> افزودن <i class="fa fa-plus"></i> </a>
+
+                            </div>
+                        </div>
+                        <div class="widget-search ml-0 clearfix">
+                            <i class="fa fa-search"></i>
+                            <input type="search" class="form-control" id="search" onkeyup="myFunction()" placeholder="جستجو....">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mt-15">
+                    <table class="table center-aligned-table mb-0" id="myTable2">
+                        <thead>
+                            <tr class="text-dark">
+                                <th>آدرس قدیم</th>
+                                <th>آدرس جدید</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>عملیات</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (data == null || data.Count() == 0)
+                            {
+                                <tr>
+                                    <td>موردی برای نمایش وجود ندارد</td>
+                                </tr>
+
+                            }
+                            else
+                            {
+                                @foreach (var item in data)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.OldUrl)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.NewUrl)</td>
+
+                                        <td>@Html.DisplayFor(modelItem => item.Createdate)</td>
+                                        <td>
+                                            @Html.ActionLink("ویرایش", "EditProduct", new {id=item.Id}, new{@class= "btn btn-outline-warning btn-sm"} ) |
+                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.Id}, new{@class= "btn btn-outline-danger btn-sm"} )
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div id="bodyModal" class="modal-body">
+                <form asp-action="Redirections">
+                    <div class="form-group" style="width:60%">
+                        <label for="Name"> آدرس قبلی </label>
+
+                        <input asp-for="OldUrl" class="form-control" />
+                        <span asp-validation-for="OldUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="width:60%">
+                        <label for="Name"> آدرس جدید </label>
+
+                        <input asp-for="NewUrl" class="form-control" />
+                        <span asp-validation-for="NewUrl" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group" style="width:100px">
+                        <input type="submit" value="ثبت شود" class="btn btn-success btn-block" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+<script>
+    function MyCreate(){
+          $('#myModal').modal('show');
+    }
+</script>
+<script>
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable2");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+</script>
+}

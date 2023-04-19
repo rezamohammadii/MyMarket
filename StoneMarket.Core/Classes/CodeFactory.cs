@@ -39,6 +39,7 @@ namespace StoneMarket.Core.Classes
                 .Select(s => s[random.Next(s.Length)]).ToArray());
             st.Append(randStr);
            string randNum =  random.Next(1000, 9999).ToString();
+            st.Append("-");
             st.Append(randNum);
             return st.ToString();
         }
