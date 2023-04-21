@@ -54,7 +54,7 @@ namespace StoneMarket.Controllers
             {
 
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
+                string uniqueFileName = CodeFactory.UploadedFile(model.Picture, uploadsFolder);
 
                 _admin.InsertCategory(model, uniqueFileName);
 
@@ -73,13 +73,17 @@ namespace StoneMarket.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult EditCategory(CategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                string uniqueFileName = CodeFactory.UploadedFile(model, uploadsFolder);
+                string uniqueFileName = "";
+                if (model.Picture != null)
+                {
+                     uniqueFileName = CodeFactory.UploadedFile(model.Picture, uploadsFolder);
+
+                }
 
                 _admin.InsertCategory(model, uniqueFileName);
 
@@ -88,6 +92,17 @@ namespace StoneMarket.Controllers
                 return RedirectToAction(nameof(Category));
             }
            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCategory(int id)
+        {
+
+            _admin.DeleteCategory(id);
+
+            //  ViewBag.SeoTitle = model.Title;
+            ViewBag.Ok = true;
+            return RedirectToAction(nameof(Category));           
         }
 
 
@@ -99,7 +114,106 @@ namespace StoneMarket.Controllers
 
         public IActionResult AddProduct()
         {
+
+            ViewBag.Ok = false;
             return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult AddProduct(ProductViewModel model)
+        {
+
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+            string uniqueFileName = "";
+            List<string> paths = new List<string>();
+            if (model.Pictures.Count != 0)
+            {
+                foreach (var item in model.Pictures)
+                {
+                    uniqueFileName = CodeFactory.UploadedFile(item, uploadsFolder);
+                    paths.Add(uniqueFileName);
+                }
+            }
+            _admin.InsertProduct(model, paths);
+            ViewBag.Ok = true;
+            return View();
+        }
+
+        public IActionResult EditProduct(string pCode)
+        {
+            Product product = _admin.GetProduct(pCode);
+            Console.WriteLine(product.ProductGalleries.Count());
+            ViewBag.Ok = false;
+            if (product == null) return View();
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult EditCategory(ProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                string uniqueFileName = "";
+                List<string> paths = new List<string>();
+                if (model.Pictures.Count != 0)
+                {
+                    foreach (var item in model.Pictures)
+                    {
+                        uniqueFileName = CodeFactory.UploadedFile(item, uploadsFolder);
+                        paths.Add(uniqueFileName);
+                    }
+                }
+
+                _admin.EditProduct(model, paths);
+
+                //  ViewBag.SeoTitle = model.Title;
+                ViewBag.Ok = true;
+                return RedirectToAction(nameof(Category));
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(string pCode)
+        {
+            _admin.DeleteProduct(pCode);
+            ViewBag.Ok = true;
+            return RedirectToAction(nameof(Products));
+        }
+
+        [HttpPost]
+        public bool DeletePicture(List<int> id)
+        {
+            return true;
+        }
+
+        public IActionResult RedirectionUrl()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RedirectionUrl(Redirection redirection)
+        {
+            _db.Redirections.Add(redirection);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(RedirectionUrl));
+        }
+
+
+        public IActionResult UploaderImage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult UploaderImage(Redirection redirection)
+        {
+            _db.Redirections.Add(redirection);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(RedirectionUrl));
         }
     }
 }

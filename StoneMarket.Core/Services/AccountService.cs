@@ -42,11 +42,7 @@ namespace StoneMarket.Core.Services
             }
         }
 
-        public void AddStore(Store store)
-        {
-            _context.Stores.Add(store);
-            _context.SaveChanges();
-        }
+       
 
         public void AddUser(User user)
         {
@@ -54,10 +50,7 @@ namespace StoneMarket.Core.Services
             _context.SaveChanges();
         }
 
-        public bool ExistsMailAddress(string mailAddress)
-        {
-            return _context.Stores.Any(s => s.Mail == mailAddress);
-        }
+       
 
         public bool ExistsMobileNumber(string mobileNumber)
         {

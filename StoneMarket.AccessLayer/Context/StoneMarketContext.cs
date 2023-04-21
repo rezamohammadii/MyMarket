@@ -31,12 +31,12 @@ namespace StoneMarket.AccessLayer.Context
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<RolePermission> RolePermissions { get; set; } = null!;
         public DbSet<Permission>  Permissions { get; set; } = null!;
-        public DbSet<Store>  Stores { get; set; } = null!;
+        public DbSet<ProductGallery>  ProductGalleries { get; set; } = null!;
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<StoreCategory> StoreCategories { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Redirection> Redirections { get; set; }
 
 
     }

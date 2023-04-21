@@ -35,5 +35,10 @@ namespace StoneMarket.Core.Classes
             return _admin.GetSubCategories();
         }
 
+         public List<Redirection> Redirections()
+        {
+            return _admin.Redirections();
+        }
+
     }
 }

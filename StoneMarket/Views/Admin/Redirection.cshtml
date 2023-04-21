@@ -1,18 +1,21 @@
-﻿@model IEnumerable<StoneMarket.AccessLayer.Entity.Product>
+﻿@model StoneMarket.AccessLayer.Entity.Redirection
+@using StoneMarket.Core.Classes
+@inject PanelLayoutScope scope
 @{
-    ViewData["Title"] = "دسته بندی ها";
+    ViewData["Title"] = "ریدایرکت ها";
     Layout = "~/Views/Shared/_Panel.cshtml";
+    var data = scope.Redirections();
 }
 
 <div class="page-title">
     <div class="row">
         <div class="col-sm-6">
-            <h4 class="mb-0">لیست محصولات </h4>
+            <h4 class="mb-0">لیست آدرس ها </h4>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
                 <li class="breadcrumb-item"><a href="#" class="default-color">خانه</a></li>
-                <li class="breadcrumb-item active">لیست محصولات </li>
+                <li class="breadcrumb-item active">لیست آدرس ها </li>
             </ol>
         </div>
     </div>
@@ -29,7 +32,7 @@
                     <div class="d-block d-md-flex clearfix sm-mt-20">
                         <div class="clearfix">
                             <div class="box">
-                                <a class="button gray icon small" href="/Admin/AddProduct"> محصول جدید <i class="fa fa-plus"></i> </a>
+                                <a class="button gray icon small" href="#" onclick="MyCreate()"> افزودن <i class="fa fa-plus"></i> </a>
 
                             </div>
                         </div>
@@ -43,19 +46,15 @@
                     <table class="table center-aligned-table mb-0" id="myTable2">
                         <thead>
                             <tr class="text-dark">
-                                <th>نام محصول</th>
-                                <th>کد محصول</th>
-                                <th>نام دسته بندی</th>
-                                <th>موجودی</th>
-                                <th>قابل نمایش در سایت</th>
-                                <th>قیمت</th>
+                                <th>آدرس قدیم</th>
+                                <th>آدرس جدید</th>
                                 <th>تاریخ ایجاد</th>
                                 <th>عملیات</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model == null || Model.Count() == 0)
+                            @if (data == null || data.Count() == 0)
                             {
                                 <tr>
                                     <td>موردی برای نمایش وجود ندارد</td>
@@ -64,32 +63,16 @@
                             }
                             else
                             {
-                                @foreach (var item in Model)
+                                @foreach (var item in data)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.ProductCode)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OldUrl)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.NewUrl)</td>
 
-
-                                        <td>@Html.DisplayFor(modelItem => item.Category!.Name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Exist)</td>
-                                        @if (item.NotShow)
-                                        {
-                                            <td style="color:green">هست</td>
-                                        }
-                                        else
-                                        {
-                                            <td style="color:red">نیست</td>
-                                        }
-                                        <td>@Html.DisplayFor(modelItem => item.Price)  تومان</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
-
-
-                                        @*   <td><label class="badge badge-success">تایید شده</label></td>
-                                        *@
+                                        <td>@Html.DisplayFor(modelItem => item.Createdate)</td>
                                         <td>
-                                            @Html.ActionLink("ویرایش", "EditProduct", new {pCode=item.ProductCode}, new{@class= "btn btn-outline-warning btn-sm"} ) |
-                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.ProductCode}, new{@class= "btn btn-outline-danger btn-sm"} )
+                                            @Html.ActionLink("ویرایش", "EditProduct", new {id=item.Id}, new{@class= "btn btn-outline-warning btn-sm"} ) |
+                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.Id}, new{@class= "btn btn-outline-danger btn-sm"} )
                                         </td>
                                     </tr>
                                 }
@@ -117,6 +100,25 @@
             </div>
 
             <div id="bodyModal" class="modal-body">
+                <form asp-action="Redirections">
+                    <div class="form-group" style="width:60%">
+                        <label for="Name"> آدرس قبلی </label>
+
+                        <input asp-for="OldUrl" class="form-control" />
+                        <span asp-validation-for="OldUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="width:60%">
+                        <label for="Name"> آدرس جدید </label>
+
+                        <input asp-for="NewUrl" class="form-control" />
+                        <span asp-validation-for="NewUrl" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group" style="width:100px">
+                        <input type="submit" value="ثبت شود" class="btn btn-success btn-block" />
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -129,25 +131,7 @@
 
 <script>
     function MyCreate(){
-        $.ajax({
-            url: "/Admin/AddProduct",
-            type: "GET",
-            data:{}
-        }).done(function(res){
-            $('#myModal').modal('show')
-            $('#bodyModal').html(res)
-        })
-    }
-    function Edit(pCode){
-        event.preventDefault();
-        alert(pCode)
-        $.ajax({
-            url: "/Admin/EditProduct/" + pCode,
-            type: "GET",
-            data: {}
-        }).done(function(res){
-
-        })
+          $('#myModal').modal('show');
     }
 </script>
 <script>
