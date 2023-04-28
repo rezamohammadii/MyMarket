@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using System.Globalization;
-<<<<<<< HEAD
 using Microsoft.AspNetCore.Http;
 
 =======

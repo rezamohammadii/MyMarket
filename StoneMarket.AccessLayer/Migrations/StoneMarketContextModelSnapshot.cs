@@ -196,13 +196,6 @@ namespace StoneMarket.AccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-<<<<<<< HEAD
-                    b.Property<string>("Createdate")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-=======
->>>>>>> f59beaea4e4b4f0ff385d2fe1ff6986fa63d1141
                     b.Property<string>("NewUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
