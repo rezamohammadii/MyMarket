@@ -6,8 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using System.Globalization;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Http;
 
+=======
+using Microsoft.AspNetCore.Http;
+
+>>>>>>> f59beaea4e4b4f0ff385d2fe1ff6986fa63d1141
 namespace StoneMarket.Core.Classes
 {
     public class CodeFactory
