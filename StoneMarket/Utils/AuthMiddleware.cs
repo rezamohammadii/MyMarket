@@ -21,9 +21,12 @@ namespace StoneMarket.Utils
         {
             var url = context.Request.Path.Value;
             var  newUrl = db.Redirections.Where(x=>x.OldUrl == url).FirstOrDefault()?.NewUrl;
-            if (newUrl == null) await _next(context);
-            context.Request.Path = newUrl;
-            await _next(context);
+            if (newUrl != null) 
+            {
+                context.Response.Redirect(newUrl);
+                await _next(context);
+                return;
+            }            
             var regex = new Regex(@"\/admin\/([^\/\s]*)(?:.*)");
             var match = regex.Match(context.Request.Path);
             if (match.Success && !string.IsNullOrEmpty(match.Groups[1].Value))

@@ -36,6 +36,7 @@ namespace StoneMarket.AccessLayer.Context
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Uploader> Uploaders { get; set; }
         public DbSet<Redirection> Redirections { get; set; }
 
 

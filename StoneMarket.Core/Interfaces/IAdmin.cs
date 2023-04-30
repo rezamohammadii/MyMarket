@@ -21,6 +21,7 @@ namespace StoneMarket.Core.Interfaces
         Setting GetSetting();
 
         List<Redirection> Redirections();
+        List<Uploader> Uploaders();
 
         #endregion
         #region For Permission

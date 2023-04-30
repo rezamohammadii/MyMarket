@@ -39,6 +39,10 @@ namespace StoneMarket.Core.Classes
         {
             return _admin.Redirections();
         }
+        public List<Uploader> Uploaders()
+        {
+            return _admin.Uploaders();
+        }
 
     }
 }

@@ -289,5 +289,10 @@ namespace StoneMarket.Core.Services
         {
             return _context.Redirections.ToList();
         }
+
+        public List<Uploader> Uploaders()
+        {
+            return _context.Uploaders.ToList();
+        }
     }
 }

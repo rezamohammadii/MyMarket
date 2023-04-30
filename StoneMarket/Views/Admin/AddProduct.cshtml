@@ -1,4 +1,4 @@
-﻿@model StoneMarket.Core.ViewModels.ProductViewModel
+﻿@model StoneMarket.AccessLayer.Entity.Product
 @using StoneMarket.Core.Classes
 @inject PanelLayoutScope scope
 @*
@@ -167,9 +167,9 @@
 
 
                     <div class="form-group" style="width:60%">
-                        <label for="Picture"> تصویر محصول </label>
-                        <input asp-for="Pictures" class="form-control-file" type="file" multiple />
-                        <span asp-validation-for="Pictures" class="text-danger"></span>
+                        <label for="ProductGalleries"> تصویر محصول </label>
+                        <input asp-for="ProductGalleries" class="form-control-file" type="file" multiple />
+                        <span asp-validation-for="ProductGalleries" class="text-danger"></span>
                     </div>
 
 

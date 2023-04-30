@@ -189,17 +189,30 @@ namespace StoneMarket.Controllers
             return true;
         }
 
-        public IActionResult RedirectionUrl()
+        public IActionResult Redirection()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult RedirectionUrl(Redirection redirection)
+        public IActionResult Redirection(Redirection redirection)
         {
             _db.Redirections.Add(redirection);
             _db.SaveChanges();
-            return RedirectToAction(nameof(RedirectionUrl));
+            return RedirectToAction(nameof(Redirection));
+        }
+
+        public IActionResult DeleteRedirection(int id)
+        {
+
+            var row = _db.Redirections.Find(id);
+            if (row == null) return BadRequest();
+
+            _db.Redirections.Remove(row);
+            _db.SaveChanges();
+
+            ViewBag.Ok = true;
+            return RedirectToAction(nameof(Redirection));
         }
 
 
@@ -209,11 +222,18 @@ namespace StoneMarket.Controllers
         }
 
         [HttpPost]
-        public IActionResult UploaderImage(Redirection redirection)
+        public IActionResult UploaderImage(UploaderViewModel model)
         {
-            _db.Redirections.Add(redirection);
+
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+            Console.WriteLine(uploadsFolder);
+            string uniqueFileName = CodeFactory.UploadedFile(model.Picture, uploadsFolder);
+            Uploader uploader = new Uploader();
+            uploader.Name = model.Name;
+            uploader.ImgAddress = uniqueFileName;
+            _db.Uploaders.Add(uploader);
             _db.SaveChanges();
-            return RedirectToAction(nameof(RedirectionUrl));
+            return RedirectToAction(nameof(UploaderImage));
         }
     }
 }

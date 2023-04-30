@@ -1,21 +1,21 @@
-﻿@model StoneMarket.AccessLayer.Entity.Redirection
+﻿@model StoneMarket.Core.ViewModels.UploaderViewModel
 @using StoneMarket.Core.Classes
 @inject PanelLayoutScope scope
 @{
-    ViewData["Title"] = "ریدایرکت ها";
+    ViewData["Title"] = "آپلودر";
     Layout = "~/Views/Shared/_Panel.cshtml";
-    var data = scope.Redirections();
+    var data = scope.Uploaders();
 }
 
 <div class="page-title">
     <div class="row">
         <div class="col-sm-6">
-            <h4 class="mb-0">لیست آدرس ها </h4>
+            <h4 class="mb-0">لیست تصاویر آپلود شده </h4>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-                <li class="breadcrumb-item"><a href="#" class="default-color">خانه</a></li>
-                <li class="breadcrumb-item active">لیست آدرس ها </li>
+                <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="default-color">خانه</a></li>
+                <li class="breadcrumb-item active">لیست تصاویر آپلود شده </li>
             </ol>
         </div>
     </div>
@@ -46,10 +46,9 @@
                     <table class="table center-aligned-table mb-0" id="myTable2">
                         <thead>
                             <tr class="text-dark">
-                                <th>آدرس قدیم</th>
-                                <th>آدرس جدید</th>
-                                <th>تاریخ ایجاد</th>
-                                <th>عملیات</th>
+                                <th>عنوان</th>
+                                <th>آدرس عکس</th>
+                              @*  <th>عملیات</th>*@
 
                             </tr>
                         </thead>
@@ -66,13 +65,13 @@
                                 @foreach (var item in data)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.OldUrl)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.NewUrl)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
 
-                                        <td>@Html.DisplayFor(modelItem => item.Createdate)</td>
-                                        <td>
-                                            @Html.ActionLink("حذف", "DeleteRedirection", new {id=item.Id}, new{@class= "btn btn-outline-danger btn-sm"} )
-                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.ImgAddress)</td>
+                                        @*<td>
+                                            @Html.ActionLink("حذف", "DeleteProduct", new {id=item.Id}, new{@class= "btn btn-outline-danger btn-sm"} )
+                                        </td>*@
                                     </tr>
                                 }
                             }
@@ -99,19 +98,19 @@
             </div>
 
             <div id="bodyModal" class="modal-body">
-                <form asp-action="Redirection">
+                <form asp-action="UploaderImage" enctype="multipart/form-data">
                     <div class="form-group" >
-                        <label for="OldUrl"> آدرس قبلی </label>
+                        <label for="Name"> عنوان </label>
 
-                        <input asp-for="OldUrl" class="form-control" style="direction:ltr;text-align:left"/>
-                        <span asp-validation-for="OldUrl" class="text-danger"></span>
+                        <input asp-for="Name" class="form-control"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group" style="width:60%">
-                        <label for="NewUrl"> آدرس جدید </label>
+                    <div class="form-group" >
+                        <label for="Picture"> انتخاب تصویر </label>
 
-                        <input asp-for="NewUrl" class="form-control" style="direction:ltr;text-align:left" />
-                        <span asp-validation-for="NewUrl" class="text-danger"></span>
+                        <input asp-for="Picture" class="form-control" type="file" />
+                        <span asp-validation-for="Picture" class="text-danger"></span>
                     </div>
                     
                     <div class="form-group" style="width:100px">
