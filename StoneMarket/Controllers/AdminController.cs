@@ -224,7 +224,7 @@ namespace StoneMarket.Controllers
         [HttpPost]
         public IActionResult UploaderImage(UploaderViewModel model)
         {
-
+            
             string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
             Console.WriteLine(uploadsFolder);
             string uniqueFileName = CodeFactory.UploadedFile(model.Picture, uploadsFolder);
