@@ -54,13 +54,23 @@ app.UseRouting();
 app.UseStaticFiles();
 
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Hello World!");
-    });
-});
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapGet("/", async context =>
+//    {
+//        await context.Response.WriteAsync("Hello World!");
+//    });
+//});
+
+app.MapControllerRoute
+    (
+    name: "products",
+    pattern: "product/{id?}");
+
+app.MapControllerRoute
+    (
+    name: "category",
+    pattern: "category/{*name}");
 
 
 bool recreateDatabase = builder.Configuration.GetValue("recreateDatabase", false);
