@@ -4,8 +4,8 @@ namespace StoneMarket.Controllers
 {
     public class ProductController : Controller
     {
-
-        public IActionResult Index()
+        [Route("ProductList")]
+        public IActionResult ProductList()
         {
             return View();
         }
