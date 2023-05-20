@@ -1,7 +1,7 @@
 ﻿@using StoneMarket.Core.Classes
 @inject PanelLayoutScope scope
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "خانه";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var parentcategoey = scope.Categories();
@@ -156,7 +156,7 @@
                             <img src="~/images/@item.Picture" alt="Image">
                             <div class="cat-popup">
                                 <p>@item.Name </p>
-                                <a href="shop-left-sidebar.html">
+                                <a href="/product-list/@item.Id">
                                     مشاهده محصول<i class="las la-angle-double-left"></i>
                                 </a>
                             </div>
